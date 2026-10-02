@@ -2,6 +2,11 @@
 
 A lightweight dark code editor built with Electron. It has a real-time sandbox, an Explorer, search, and a JavaScript debugger. It is designed to use little RAM.
 
+[![Electron](https://img.shields.io/badge/Electron-47848F?logo=electron&logoColor=white)](https://www.electronjs.org)
+[![Node.js](https://img.shields.io/badge/Node.js-18%2B-339933?logo=nodedotjs&logoColor=white)](https://nodejs.org)
+![Platform](https://img.shields.io/badge/platform-Windows%20%7C%20macOS%20%7C%20Linux-blue)
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
+
 ## Features
 
 - Dark theme with VS Code style syntax colors
