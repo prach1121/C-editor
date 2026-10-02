@@ -1,0 +1,9 @@
+{
+  "name": "c-editor",
+  "version": "1.0.0",
+  "description": "C - lightweight code editor with live sandbox and debugger",
+  "main": "main.js",
+  "scripts": { "start": "electron ." },
+  "dependencies": { "ws": "^8.18.0" },
+  "devDependencies": { "electron": "^33.0.0" }
+}

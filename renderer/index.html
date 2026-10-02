@@ -1,0 +1,125 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>C</title>
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<div id="app">
+  <header id="top">
+    <div class="logo">C</div>
+    <button class="tb" id="bOpenFile">Open File</button>
+    <button class="tb" id="bOpenFolder">Open Folder</button>
+    <button class="tb" id="bSave">Save</button>
+    <button class="tb" id="bSaveAs">Save as</button>
+    <div class="sp"></div>
+    <button class="ib" id="bRun" title="Run (F5)"><i data-i="play"></i></button>
+    <button class="ib" id="bDbg" title="Start debugging (F6)"><i data-i="bug"></i></button>
+  </header>
+
+  <div id="body">
+    <nav id="rail">
+      <button class="rb" data-p="search" title="Search"><i data-i="search"></i></button>
+      <button class="rb" data-p="explorer" title="Explorer"><i data-i="folder"></i></button>
+      <button class="rb" data-p="sandbox" title="Sandbox"><i data-i="code"></i></button>
+      <button class="rb" data-p="debug" title="Debugger"><i data-i="bug"></i></button>
+    </nav>
+
+    <aside id="panel">
+      <section class="pn" id="p-search" hidden>
+        <h2>Search</h2>
+        <input class="fld" id="q" placeholder="Find in folder, press Enter" spellcheck="false">
+        <div id="sres"></div>
+      </section>
+
+      <section class="pn" id="p-explorer" hidden>
+        <h2>Explorer</h2>
+        <div id="rootname" class="mut">No folder opened</div>
+        <div id="tree"></div>
+        <button class="btn" id="bOpenFolder2">Open Folder</button>
+      </section>
+
+      <section class="pn" id="p-sandbox" hidden>
+        <h2>Sandbox Settings</h2>
+        <label class="lb">Host</label>
+        <input class="fld" id="host" value="localhost:2000" spellcheck="false">
+        <label class="lb sm">Status Port:</label>
+        <div id="pstat" class="ps">Checking</div>
+        <div class="trow"><label class="lb">Bind Port</label><button class="tg" id="bindTg" role="switch" aria-checked="false"><i></i></button></div>
+        <input class="fld" id="bind" value="localhost:2000" spellcheck="false">
+        <div class="trow"><label class="lb">Real-time</label><button class="tg on" id="liveTg" role="switch" aria-checked="true"><i></i></button></div>
+        <div id="sroot" class="mut"></div>
+        <button class="btn" id="bOpenUrl" hidden>Open in browser</button>
+        <p class="note">Sandbox languages: C#, JavaScript, HTML, PHP. HTML and JavaScript update as you type. PHP runs in a restricted mode while typing. C# checks for compile errors while typing. F5 runs the file with no restrictions.</p>
+      </section>
+
+      <section class="pn" id="p-debug" hidden>
+        <h2>Debugger</h2>
+        <div class="dbtns">
+          <button class="ib acc" id="dStart" title="Start debugging (F6)"><i data-i="bug"></i></button>
+          <button class="ib" id="dCont" title="Continue (F5 when paused)" disabled><i data-i="play"></i></button>
+          <button class="ib" id="dOver" title="Step over (F10)" disabled><i data-i="over"></i></button>
+          <button class="ib" id="dInto" title="Step into (F11)" disabled><i data-i="into"></i></button>
+          <button class="ib" id="dOut" title="Step out (Shift+F11)" disabled><i data-i="outi"></i></button>
+          <button class="ib" id="dStop" title="Stop" disabled><i data-i="stop"></i></button>
+        </div>
+        <div id="dstat" class="mut">Not running</div>
+        <h3>Call Stack</h3><div id="stack" class="list"></div>
+        <h3>Variables</h3><div id="vars" class="list"></div>
+        <h3>Breakpoints</h3><div id="bplist" class="list"></div>
+        <h3>Evaluate</h3>
+        <input class="fld" id="evin" placeholder="expression, press Enter" spellcheck="false">
+        <div id="evout" class="mut"></div>
+        <p class="note">Click the line number gutter or press F9 to set a breakpoint. The debugger runs JavaScript with Node. For C# and PHP, build errors and warnings appear in Problems.</p>
+      </section>
+    </aside>
+
+    <main id="main">
+      <div id="tabs"></div>
+      <div id="stage">
+        <div id="empty">
+          <div class="big">C</div>
+          <div>Open File <kbd>Ctrl+O</kbd></div>
+          <div>Open Folder <kbd>Ctrl+Shift+O</kbd></div>
+          <div>New file <kbd>Ctrl+N</kbd></div>
+        </div>
+        <div id="ed" hidden>
+          <div id="gut"></div>
+          <div id="code">
+            <pre id="hl"></pre>
+            <div id="curline" hidden></div>
+            <textarea id="ta" spellcheck="false" wrap="off" autocomplete="off" autocapitalize="off"></textarea>
+          </div>
+        </div>
+      </div>
+      <div id="dock">
+        <div id="grip"></div>
+        <div id="dbar">
+          <button class="dt" data-d="output">Output</button>
+          <button class="dt" data-d="preview">Preview</button>
+          <button class="dt" data-d="problems">Problems <span id="pbadge"></span></button>
+          <div class="sp"></div>
+          <button class="ib sm" id="dClear" title="Clear output"><i data-i="trash"></i></button>
+          <button class="ib sm" id="dClose" title="Close panel"><i data-i="x"></i></button>
+        </div>
+        <div class="pane" id="pane-output"></div>
+        <div class="pane" id="pane-preview" hidden><iframe id="frame" title="Preview"></iframe></div>
+        <div class="pane" id="pane-problems" hidden></div>
+      </div>
+    </main>
+  </div>
+
+  <footer id="status">
+    <span id="pos">0 line 0 Col</span>
+    <div class="sp"></div>
+    <button class="sb" id="sbDock" title="Toggle panel"><i data-i="panel"></i></button>
+    <span class="sc" id="sbErr"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10" fill="#f14c4c"/><path d="M8.2 8.2l7.6 7.6M15.8 8.2l-7.6 7.6" stroke="#fff" stroke-width="2.4" stroke-linecap="round"/></svg><b id="ecount">0</b></span>
+    <span class="sc" id="sbWarn"><svg viewBox="0 0 24 24"><path d="M12 2.5 23 21.5H1z" fill="#f5b50a" stroke="#f5b50a" stroke-width="1.5" stroke-linejoin="round"/><path d="M12 9v6" stroke="#1a1a1a" stroke-width="2.4" stroke-linecap="round"/><circle cx="12" cy="18" r="1.4" fill="#1a1a1a"/></svg><b id="wcount">0</b></span>
+  </footer>
+</div>
+<div id="toast"></div>
+<script src="highlight.js"></script>
+<script src="app.js"></script>
+</body>
+</html>
